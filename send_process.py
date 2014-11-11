@@ -29,7 +29,7 @@ def procesar(filename):
 # path = sys.argv[1]
 path="/SalsaBD/Proof"
 pathdest = "/SalsaBD/Proof/result"
-nworkers = 6
+nworkers = 4
 
 files = []
 for root, dirnames, filenames in os.walk(path):
@@ -39,7 +39,8 @@ tam = len(files)
 i = 0
 pool = Pool(processes=nworkers)       # start 4 worker processes
 
-pool.map(procesar,files)
+for e in files:
+    pool.exec_async(procesar,[e])
 
 # while i< tam:
 #     toproc = files[i:i+nworkers]

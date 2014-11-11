@@ -42,7 +42,6 @@ class SignalProc:
     def extractRawSignal(self, fn):
             loader = essentia.standard.MonoLoader(filename = fn)
             self.metadata=essentia.standard.MetadataReader(filename= fn )()[:-1]
-	    print self.metadata
             self.audio = loader()
             self.points=len(self.audio)
             self.points_per_secound=self.points/self.metadata[7]
@@ -78,8 +77,7 @@ class SignalProc:
     #input: vectors
     def same(self,x,y,nx,ny):
             rxcorr = max(signal.fftconvolve(x,y[::-1],mode='full')) / (nx*ny)
-            # if rxcorr > 0.95:	#similitude of 0.95
-            if rxcorr > 0.9:
+            if rxcorr > 0.95:	#similitude of 0.95
                     return True
             else:
                     return False
@@ -195,8 +193,8 @@ class SignalProc:
        librosa.output.write_wav(fnn,aver,44100)
        sound = AudioSegment.from_wav(fnn)
        ffn=fname
-       ffn=location+'/'+'t'+ffn
-       # ffn=location+'/'+ffn
+       # ffn=location+'/'+'t'+ffn
+       ffn=location+'/'+ffn
        print "location mp3 process"
        print ffn
        sound.export(ffn, format="mp3")
@@ -292,172 +290,99 @@ def process(filename,location,fname):
 
 
 
-    # x.getFrames(0.95, 0.001)
-    # c=x.getChorus()
-    # x.mostrepeated()
-    # if x.mRepeated[0]!=0:
-    #     print "check 1"
-    #     x.framePool=[]
-    #     x.normales=[]
-    #     x.positions=[]
-    #     x.getFrames(0.90,0.001)
-    #     c=x.getChorus()
-    #     x.mostrepeated()
-    #     if x.mRepeated[0]==0:
-    #         print "check 2"
-    #         x.framePool=[]
-    #         x.normales=[]
-    #         x.positions=[]
-    #         x.getFrames(0.85,0.001)
-    #         c=x.getChorus()
-    #         x.mostrepeated()
-    #         if x.mRepeated[0]==0:
-    #             print "check 3"
-    #             x.framePool=[]
-    #             x.normales=[]
-    #             x.positions=[]
-    #             x.getFrames(0.80,0.001)
-    #             c=x.getChorus()
-    #             x.mostrepeated()
-    #             if x.mRepeated[0]==0:
-    #                 print "check 4"
-    #                 x.framePool=[]
-    #                 x.normales=[]
-    #                 x.positions=[]
-    #                 x.getFrames(0.75,0.001)
-    #                 c=x.getChorus()
-    #                 x.mostrepeated()
-    #                 if x.mRepeated[0]==0:
-    #                     print "check 5"
-    #                     x.framePool=[]
-    #                     x.normales=[]
-    #                     x.positions=[]
-    #                     x.getFrames(0.70,0.001)
-    #                     c=x.getChorus()
-    #                     x.mostrepeated()
-    #                     if x.mRepeated[0]==0:
-    #                         print "check 6"
-    #                         x.framePool=[]
-    #                         x.normales=[]
-    #                         x.positions=[]
-    #                         x.getFrames(0.65,0.001)
-    #                         c=x.getChorus()
-    #                         x.mostrepeated()
-    #                         if x.mRepeated[0]==0:
-    #                             print "check 7"
-    #                             x.framePool=[]
-    #                             x.normales=[]
-    #                             x.positions=[]
-    #                             x.getFrames(0.60,0.001)
-    #                             c=x.getChorus()
-    #                             x.mostrepeated()
-    #                             if x.mRepeated[0]==0:
-    #                                 print "check 8"
-    #                                 x.framePool=[]
-    #                                 x.normales=[]
-    #                                 x.positions=[]
-    #                                 x.getFrames(0.55,0.001)
-    #                                 c=x.getChorus()
-    #                                 x.mostrepeated()
-    #                                 if x.mRepeated[0]==0:
-    #                                     print "check 9"
-    #                                     x.framePool=[]
-    #                                     x.normales=[]
-    #                                     x.positions=[]
-    #                                     x.getFrames(0.50,0.001)
-    #                                     c=x.getChorus()
-    #                                     x.mostrepeated()
-    #                                     if x.mRepeated[0]==0:
-    #                                         print "check 10"
-    #                                         x.framePool=[]
-    #                                         x.normales=[]
-    #                                         x.positions=[]
-    #                                         x.getFrames(0.45,0.001)
-    #                                         c=x.getChorus()
-    #                                         x.mostrepeated()
-    #                                         if x.mRepeated[0]==0:
-    #                                             print "check 11"
-    #                                             x.framePool=[]
-    #                                             x.normales=[]
-    #                                             x.positions=[]
-    #                                             x.getFrames(0.40,0.001)
-    #                                             c=x.getChorus()
-    #                                             x.mostrepeated()   
-    # print c      
-    # # x.mostrepeated()
-    ######################################################
-    num=40
     x.getFrames(0.95, 0.001)
-    if len(x.framePool)<=num:
+    c=x.getChorus()
+    x.mostrepeated()
+    if x.mRepeated[0]==0:
         print "check 1"
         x.framePool=[]
         x.normales=[]
         x.positions=[]
         x.getFrames(0.90,0.001)
-        if len(x.framePool)<=num:
+        c=x.getChorus()
+        x.mostrepeated()
+        if x.mRepeated[0]==0:
             print "check 2"
             x.framePool=[]
             x.normales=[]
             x.positions=[]
             x.getFrames(0.85,0.001)
-            if len(x.framePool)<=num:
+            c=x.getChorus()
+            x.mostrepeated()
+            if x.mRepeated[0]==0:
                 print "check 3"
                 x.framePool=[]
                 x.normales=[]
                 x.positions=[]
                 x.getFrames(0.80,0.001)
-                if len(x.framePool)<=num:
+                c=x.getChorus()
+                x.mostrepeated()
+                if x.mRepeated[0]==0:
                     print "check 4"
                     x.framePool=[]
                     x.normales=[]
                     x.positions=[]
                     x.getFrames(0.75,0.001)
-                    if len(x.framePool)<=num:
+                    c=x.getChorus()
+                    x.mostrepeated()
+                    if x.mRepeated[0]==0:
                         print "check 5"
                         x.framePool=[]
                         x.normales=[]
                         x.positions=[]
                         x.getFrames(0.70,0.001)
-                        if len(x.framePool)<=num:
+                        c=x.getChorus()
+                        x.mostrepeated()
+                        if x.mRepeated[0]==0:
                             print "check 6"
                             x.framePool=[]
                             x.normales=[]
                             x.positions=[]
                             x.getFrames(0.65,0.001)
-                            if len(x.framePool)<=num:
+                            c=x.getChorus()
+                            x.mostrepeated()
+                            if x.mRepeated[0]==0:
                                 print "check 7"
                                 x.framePool=[]
                                 x.normales=[]
                                 x.positions=[]
                                 x.getFrames(0.60,0.001)
-                                if len(x.framePool)<=num:
+                                c=x.getChorus()
+                                x.mostrepeated()
+                                if x.mRepeated[0]==0:
                                     print "check 8"
                                     x.framePool=[]
                                     x.normales=[]
                                     x.positions=[]
                                     x.getFrames(0.55,0.001)
-                                    if len(x.framePool)<=num:
+                                    c=x.getChorus()
+                                    x.mostrepeated()
+                                    if x.mRepeated[0]==0:
                                         print "check 9"
                                         x.framePool=[]
                                         x.normales=[]
                                         x.positions=[]
                                         x.getFrames(0.50,0.001)
-                                        if len(x.framePool)<=num:
+                                        c=x.getChorus()
+                                        x.mostrepeated()
+                                        if x.mRepeated[0]==0:
                                             print "check 10"
                                             x.framePool=[]
                                             x.normales=[]
                                             x.positions=[]
                                             x.getFrames(0.45,0.001)
-                                            if len(x.framePool)<=num:
+                                            c=x.getChorus()
+                                            x.mostrepeated()
+                                            if x.mRepeated[0]==0:
                                                 print "check 11"
                                                 x.framePool=[]
                                                 x.normales=[]
                                                 x.positions=[]
-                                                x.getFrames(0.40,0.001) 
-    c=x.getChorus()
-    print c      
-    x.mostrepeated()
-
+                                                x.getFrames(0.40,0.001)
+                                                c=x.getChorus()
+                                                x.mostrepeated()   
+    # print c      
+    # x.mostrepeated()
     x.outputAudio(filename,location,fname)
     #plot the frames obtained of the chorus
     #x.printFrames()
@@ -473,4 +398,4 @@ def process(filename,location,fname):
     ##print x.framePool[c[3]]
     ##print x.framePool[c[4]]
     print time.time() - start_time, "seconds"
-process(sys.argv[1],"/Users/gsarria/Dropbox/Research/SalsaDb/Software",sys.argv[1])
+# process(sys.argv[1],"/Users/gsarria/Dropbox/Research/SalsaDb/Software",sys.argv[1])
