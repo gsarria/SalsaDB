@@ -16,6 +16,7 @@ import taglib ## <<<<--------
 import audiotools ## hasta aqui
 from pydub import AudioSegment
 import md5
+import wave
 
 class SignalProc:
     audio=[]
@@ -36,6 +37,7 @@ class SignalProc:
     def __init__(self, data):
             self.fn = data
             self.extractRawSignal(self.fn)
+
     
     #Load audio
     #input: filename
@@ -45,8 +47,18 @@ class SignalProc:
             self.audio = loader()
             self.points=len(self.audio)
             self.points_per_secound=self.points/self.metadata[7]
-            #print self.points_per_secound
-            #return audio
+            #Down sampling
+            ffn=md5.md5(fn).hexdigest()
+            # print ffn
+            fnn=ffn+".wav"
+            # print fnn
+            print "Sampling Down..."
+            librosa.output.write_wav(fnn,self.audio,44100)
+            sound = AudioSegment.from_wav(fnn)
+            sound.export(fnn, format="wav", bitrate="32k")
+            loader = essentia.standard.MonoLoader(filename = fnn)
+            self.audio = loader()
+            print "Sampling Down Ok!"
 
     #Separate audio
     #input: audio file, treshold(se refiere mas que todo a la amplitud), size (0<size<=1)
@@ -397,5 +409,12 @@ def process(filename,location,fname):
     ##print x.framePool[c[2]]
     ##print x.framePool[c[3]]
     ##print x.framePool[c[4]]
+    tim=time.time() - start_time
+    if tim>10:
+        f = open('log.txt','a')
+        lo= filename + "    time:" +str(tim)+"\n"
+        f.write(lo)
+        f.close()
     print time.time() - start_time, "seconds"
+
 # process(sys.argv[1],"/Users/gsarria/Dropbox/Research/SalsaDb/Software",sys.argv[1])
