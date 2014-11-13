@@ -46,19 +46,20 @@ class SignalProc:
             self.metadata=essentia.standard.MetadataReader(filename= fn )()[:-1]
             self.audio = loader()
             self.points=len(self.audio)
-            self.points_per_secound=self.points/self.metadata[7]
-            #Down sampling
-            ffn=md5.md5(fn).hexdigest()
-            # print ffn
-            fnn=ffn+".wav"
-            # print fnn
-            print "Sampling Down..."
-            librosa.output.write_wav(fnn,self.audio,44100)
-            sound = AudioSegment.from_wav(fnn)
-            sound.export(fnn, format="wav", bitrate="32k")
-            loader = essentia.standard.MonoLoader(filename = fnn)
-            self.audio = loader()
-            print "Sampling Down Ok!"
+            self.points_per_secound=self.points/self.metadata[7] #mac
+            #self.points_per_secound=self.points/self.metadata[8] #linux
+            # #Down sampling
+            # ffn=md5.md5(fn).hexdigest()
+            # # print ffn
+            # fnn=ffn+".wav"
+            # # print fnn
+            # print "Sampling Down..."
+            # librosa.output.write_wav(fnn,self.audio,44100)
+            # sound = AudioSegment.from_wav(fnn)
+            # sound.export(fnn, format="wav", bitrate="32k")
+            # loader = essentia.standard.MonoLoader(filename = fnn)
+            # self.audio = loader()
+            # print "Sampling Down Ok!"
 
     #Separate audio
     #input: audio file, treshold(se refiere mas que todo a la amplitud), size (0<size<=1)
@@ -126,6 +127,8 @@ class SignalProc:
                     for j in range(i+1, len(self.framePool)):
                             # if repeated[j] > 0:
                             #     continue
+                            if time.time() - start_time > 36000:
+                                goto end
                             if self.same(self.framePool[i],self.framePool[j],self.normales[i],self.normales[j]):
                                     # repeated[i]+=1
                                     # repeated[j]+=1
@@ -196,12 +199,14 @@ class SignalProc:
        # for x in range(self.mRepeated[0],int(self.mRepeated[0]+self.points_per_secound*10)):
        #     aver.append(self.audio[x])
        aver=self.audio[self.mRepeated[0]:self.mRepeated[0]+self.points_per_secound*10]
-       ffn=md5.md5(filename).hexdigest()
-       # print ffn
-       fnn=ffn+".wav"
-       # print fnn
-       ffn=ffn+".mp3"
-       # print ffn
+       #temporal con la metadata
+       # ffn=md5.md5(filename).hexdigest()
+       # # print ffn
+       # fnn=ffn+".wav"
+       # # print fnn
+       # ffn=ffn+".mp3"
+       # # print ffn
+       fnn=filename[0:len(filename)-5]+".wav"
        librosa.output.write_wav(fnn,aver,44100)
        sound = AudioSegment.from_wav(fnn)
        ffn=fname
@@ -410,7 +415,10 @@ def process(filename,location,fname):
     ##print x.framePool[c[3]]
     ##print x.framePool[c[4]]
     tim=time.time() - start_time
-    if tim>10:
+    if tim>3600:
+        label end:
+        x.mRepeated[0]=x.points_per_secound*60
+        x.outputAudio(filename,location,fname)
         f = open('log.txt','a')
         lo= filename + "    time:" +str(tim)+"\n"
         f.write(lo)
