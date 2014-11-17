@@ -47,8 +47,8 @@ class SignalProc:
             self.metadata=essentia.standard.MetadataReader(filename= fn )()[:-1]
             self.audio = loader()
             self.points=len(self.audio)
-            self.points_per_secound=self.points/self.metadata[7] #mac
-            #self.points_per_secound=self.points/self.metadata[8] #linux
+            #self.points_per_secound=self.points/self.metadata[7] #mac
+            self.points_per_secound=self.points/self.metadata[8] #linux
             # #Down sampling
             # ffn=md5.md5(fn).hexdigest()
             # # print ffn
@@ -128,6 +128,7 @@ class SignalProc:
                     for j in range(i+1, len(self.framePool)):
                             # if repeated[j] > 0:
                             #     continue
+
                             if time.time() - self.start > 36000:
 				self.frames_correlation=co
 				self.mRepeated[0]=self.points_per_secound*60
@@ -209,7 +210,7 @@ class SignalProc:
        # # print fnn
        # ffn=ffn+".mp3"
        # # print ffn
-       fnn=fname[0:len(fname)-5]+".wav"
+       fnn=fname[0:len(fname)-4]+".wav"
        fnn=location+'/'+fnn
        librosa.output.write_wav(fnn,aver,44100)
        sound = AudioSegment.from_wav(fnn)
@@ -311,14 +312,14 @@ def process(filename,location,fname):
     tento=0
     while(x.mRepeated[0]==0):
 	x.getFrames(tresh,0.001)
-	c=getChorus()
+	c=x.getChorus()
 	tento=tento+1
 	tresh=tresh-0.05
 	if x.mRepeated[0]==0:
 	    x.mostrepeated()
 	if x.mRepeated[0]==0:
 	    print "check "+str(tento)
-	    x.framepool=[]
+	    x.framePool=[]
 	    x.normales=[]
 	    x.positions=[]
 	if tresh == 0.10:
@@ -340,7 +341,7 @@ def process(filename,location,fname):
     ##print x.framePool[c[3]]
     ##print x.framePool[c[4]]
     tim=time.time() - start_time
-    if tim>3600:
+    if tim>36000:
         f = open('log.txt','a')
         lo= filename + "    time:" +str(tim)+"\n"
         f.write(lo)

@@ -6,7 +6,7 @@ import sys
 import md5
 from multiprocessing import Pool
 import taglib
-import choruExtractor
+import send_choruExtractor
 
 def procesar(filename):
     fname = filename.split('/')[-1]
@@ -18,18 +18,18 @@ def procesar(filename):
     # fin.close()
     # fout.close()
     print filename
-    choruExtractor.process(filename,pathdest,fname)
+    send_choruExtractor.process(filename,pathdest,fname)
     # s=md5.md5(filename).hexdigest()+".mp3"
-    ss=md5.md5(filename).hexdigest()+".wav"
+    #ss=md5.md5(filename).hexdigest()+".wav"
     # dirr=pathdest+fname
     # os.rename(s,fname)
-    os.remove(ss)
+    #os.remove(ss)
 
 
 # path = sys.argv[1]
-path="/SalsaBD/Proof"
-pathdest = "/SalsaBD/Proof/result"
-nworkers = 4
+path="/home/gsarria/salsaDB/BDMusica"
+pathdest = "/home/gsarria/salsaDB/Resultado/"
+nworkers = 60
 
 files = []
 for root, dirnames, filenames in os.walk(path):
@@ -39,8 +39,7 @@ tam = len(files)
 i = 0
 pool = Pool(processes=nworkers)       # start 4 worker processes
 
-for e in files:
-    pool.exec_async(procesar,[e])
+pool.map(procesar,files)
 
 # while i< tam:
 #     toproc = files[i:i+nworkers]
