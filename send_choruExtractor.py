@@ -129,7 +129,7 @@ class SignalProc:
                             # if repeated[j] > 0:
                             #     continue
 
-                            if time.time() - self.start > 36000:
+                            if time.time() - self.start > 600:
 				self.frames_correlation=co
 				self.mRepeated[0]=self.points_per_secound*60
                                 return co
@@ -341,7 +341,7 @@ def process(filename,location,fname):
     ##print x.framePool[c[3]]
     ##print x.framePool[c[4]]
     tim=time.time() - start_time
-    if tim>36000:
+    if tim>600:
         f = open('log.txt','a')
         lo= filename + "    time:" +str(tim)+"\n"
         f.write(lo)
