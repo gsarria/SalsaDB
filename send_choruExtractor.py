@@ -343,7 +343,7 @@ def process(filename,location,fname):
     tim=time.time() - start_time
     if tim>600:
         f = open('log.txt','a')
-        lo= filename + "    time:" +str(tim)+"\n"
+        lo= filename + "    time:" +str(tim)+" \n"
         f.write(lo)
         f.close()
     print time.time() - start_time, "seconds"

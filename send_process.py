@@ -28,7 +28,8 @@ def procesar(filename):
 
 # path = sys.argv[1]
 path="/home/gsarria/salsaDB/BDMusica"
-pathdest = "/home/gsarria/salsaDB/Resultado/"
+#pathdest = "/home/gsarria/salsaDB/Resultado/"
+pathdest = "/vol-users/gsarria/"
 nworkers = 60
 
 files = []
