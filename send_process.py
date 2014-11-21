@@ -44,7 +44,7 @@ tam = len(files)
 i = 0
 pool = Pool(processes=nworkers)       # start 4 worker processes
 
-pool.map(procesar,files)
+pool.map(procesar,files,10)
 
 # while i< tam:
 #     toproc = files[i:i+nworkers]
