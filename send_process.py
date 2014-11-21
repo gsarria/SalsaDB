@@ -19,15 +19,19 @@ def procesar(filename):
     # fout.close()
     print filename
     send_choruExtractor.process(filename,pathdest,fname)
+    pat=pathcopy+fname
+    os.rename(filename,pat);
     # s=md5.md5(filename).hexdigest()+".mp3"
-    #ss=md5.md5(filename).hexdigest()+".wav"
+    # ss=md5.md5(filename).hexdigest()+".wav"
     # dirr=pathdest+fname
     # os.rename(s,fname)
-    #os.remove(ss)
+    # os.remove(ss)
 
 
 # path = sys.argv[1]
-path="/home/gsarria/salsaDB/BDMusica"
+# path="/home/gsarria/salsaDB/BDMusica"
+path="/vol-users/gsarria/BDMusica"
+pathcopy="/vol-users/gsarria/BDMusica_ok/"
 #pathdest = "/home/gsarria/salsaDB/Resultado/"
 pathdest = "/vol-users/gsarria/"
 nworkers = 60
