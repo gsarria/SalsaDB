@@ -31,20 +31,30 @@ def procesar(filename):
 # path = sys.argv[1]
 # path="/home/gsarria/salsaDB/BDMusica"
 path="/vol-users/gsarria/BDMusica"
-pathcopy="/vol-users/gsarria/BDMusica_ok/"
+#pathcopy="/vol-users/gsarria/BDMusica_ok/"
+pathcopy="vol-users/gsarria/BDMusica_ok_MP3/"
 #pathdest = "/home/gsarria/salsaDB/Resultado/"
 pathdest = "/vol-users/gsarria/"
 nworkers = 60
 
 files = []
 for root, dirnames, filenames in os.walk(path):
-    files.extend(glob.glob(root + "/*.mp3"))
+    files.extend(glob.glob(root + "/*.MP3"))
 from multiprocessing import Pool
 tam = len(files)
 i = 0
 pool = Pool(processes=nworkers)       # start 4 worker processes
 
 pool.map(procesar,files,10)
+
+#n = tam/(nworkers*10)
+
+#for f in files:
+#	procesar(f)
+#	print "> Done",f
+
+#for x in pool.imap(procesar,files,n):
+#   print "----------------- FINALIZADO PROCESO -------------------"
 
 # while i< tam:
 #     toproc = files[i:i+nworkers]

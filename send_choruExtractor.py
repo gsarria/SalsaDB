@@ -210,6 +210,9 @@ class SignalProc:
        # # print fnn
        # ffn=ffn+".mp3"
        # # print ffn
+       if not len(aver):
+        print "Error con cancion",fname
+	return
        fnn=fname[0:len(fname)-4]+".wav"
        fnn=location+'/'+fnn
        librosa.output.write_wav(fnn,aver,44100)
