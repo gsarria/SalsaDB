@@ -8,7 +8,7 @@ import sys
 # from multiprocessing import Pool
 repro=False
 # path="/Users/gsarria/Dropbox/Research/SalsaDb/Software/app" #direccion de los wav's
-path="/SalsaBD/ChorusResults"
+path="/SalsaBD/ChorusResults"  ##direccion de los wav's 
 files = []
 ex=False
 ff=[]
@@ -116,12 +116,12 @@ for x in range(co,375):
 	# if m==False and co!=0:
 	# 	m=True
 	# 	x=co
-	y=random.randrange(17963)
+	y=random.randrange(17960)
 	print "Cancion numero "+ str(x)
 	while 1:
-		if ff[y]!=True:
-			y=random.randrange(17963)
-		else
+		if ff[y]==True:
+			y=random.randrange(17960)
+		else:
 			break
 	reproducir(files[y])
 	print "Que le parece a usted?"
@@ -166,5 +166,6 @@ for x in range(co,375):
 	ff[y]=True
 if ex!=True:
 	grabar()
+	print "fina"
 	"grabado ok!"
 
