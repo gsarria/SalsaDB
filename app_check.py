@@ -166,6 +166,6 @@ for x in range(co,375):
 	ff[y]=True
 if ex!=True:
 	grabar()
-	print "fina"
-	"grabado ok!"
+	print "finalizado"
+	print "grabado ok!"
 
