@@ -331,18 +331,29 @@ def process(filename,location,fname):
     tmp=0
     fin=[]
     contro=0
-    for i in range(0,len(cor)-1):
-      tmp=0
-      # if contro==1:
-      #   contro=0
-      #   pass
-      for j in range(0,len(cor)-1):
-        # if i==j:
-        #   contro=1
-        #   fin.append(tmp)
-          # break
-        tmp=tmp+cor[i][j]
+    i=len(cor)-1
+    while(i>=0):
+      j=0
+      while(j-len(cor)-1>=i):
+        if cor[i][j]==1:
+          tmp=tmp+1;
+        j=j+1
+      i=i-1;
       fin.append(tmp)
+
+
+    # for i in range(0,len(cor)-1):
+    #   tmp=0
+    #   if contro==1:
+    #     contro=0
+    #     pass
+    #   for j in range(0,len(cor)-1):
+    #     if i==j:
+    #       contro=1
+    #       fin.append(tmp)
+    #       break
+    #     tmp=tmp+cor[i][j]
+    #   fin.append(tmp)
     print fin
 
     #x.audio = librosa.logamplitude(x.audio, ref_power=facc)
