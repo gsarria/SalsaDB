@@ -325,22 +325,45 @@ def process(filename,location,fname):
         if ke[i]==ke[j]:
           corr[j]=corr[j]+1
       cor.append(corr)
-    #print cor
-    # for i in cor:
-    #   print i
+    # print cor
+    for i in cor:
+      print i
     tmp=0
+    cont=0
+    tol=0
+    pos=0
+    tmpp=0
     fin=[]
     contro=0
-    i=len(cor)-1
-    while(i>=0):
-      j=0
-      while(j-len(cor)-1>=i):
-        if cor[i][j]==1:
-          tmp=tmp+1;
+    k=0
+    for m in range(0,len(cor)-2):
+      j=k+1
+      for i in range(0,len(cor)-k):
         j=j+1
-      i=i-1;
-      fin.append(tmp)
-
+        if j>len(cor)-1:
+          break
+        if cor[i][j]==1:
+          tmp=tmp+1
+          tol=0
+          if tmpp==0:
+            tmpp=j
+        else:
+          if tol==0:
+            tol=1
+          else:
+            if tmp>cont:
+              cont=tmp
+              tol=0
+              tmp=0
+              pos=tmpp
+              tmpp=0
+            else:
+              tmp=0
+              tmpp=0
+              tol=0
+      k=k+1      
+    print pos
+    print cont
 
     # for i in range(0,len(cor)-1):
     #   tmp=0
@@ -354,7 +377,7 @@ def process(filename,location,fname):
     #       break
     #     tmp=tmp+cor[i][j]
     #   fin.append(tmp)
-    print fin
+    # print fin
 
     #x.audio = librosa.logamplitude(x.audio, ref_power=facc)
     # print "converti"
