@@ -304,18 +304,13 @@ def process(filename,location,fname):
     ke=[]
     for i in onda:
       tmp=KeyExtractor()(i)
-      ke.append(tmp[0:2])
+      ke.append(tmp[0])
       # tmp=TuningFrequencyExtractor()(i)
       # local=[]
       # for j in tmp:
       #   local.append(librosa.core.midi_to_note(librosa.core.hz_to_midi(j)))
       # ke.append(local[0])
     # print ke
-
-
-
-
-
 
     cor=[]
     for i in range(0,len(ke)-1):
@@ -346,7 +341,8 @@ def process(filename,location,fname):
           tmp=tmp+1
           tol=0
           if tmpp==0:
-            tmpp=j
+            # tmpp=j
+            tmpp=i
         else:
           if tol==0:
             tol=1
@@ -357,6 +353,8 @@ def process(filename,location,fname):
               tmp=0
               pos=tmpp
               tmpp=0
+              temp=[pos,cont]
+              fin.append(temp)
             else:
               tmp=0
               tmpp=0
@@ -364,6 +362,24 @@ def process(filename,location,fname):
       k=k+1      
     print pos
     print cont
+
+    conte=0
+    for k in fin:
+      pos=k[0]
+      cont=k[1]
+      conte=conte+1
+      print str(conte)+" vector    pos: "+str(pos)+" cont: "+str(cont)
+      pat=ke[pos:pos+cont]  
+      for i in range(0,len(ke)-cont-1):
+        tmp=ke[i:i+cont]
+        o=0
+        if pos==i:
+          continue
+        for j in range(0,len(pat)-1):
+          if tmp[j]==pat[j]:
+            o=o+1
+        if o>=(len(pat))*0.6:
+          print str(i)+": sii"
 
     # for i in range(0,len(cor)-1):
     #   tmp=0
