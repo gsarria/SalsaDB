@@ -278,20 +278,20 @@ def process(filename,location,fname):
     # tag1=taglib.File(sys.argv[1])
     # print tag1.tags
 
-    z=ReplayGain()(x.audio)
-    # print z
-    # print 11.5-abs(z)
-    f=11.5
-    if f-abs(z)>0:
-        # print 10**((11.5-abs(z))/20)
-        facc=10**((f-abs(z))/20)
-        # fac=20*np.log10(13-abs(z))
-        # print fac
-        # facc=((13-abs(z))*2)/6.020599913
-        # print facc
-        # # x.audio=Scale(factor = 10**((abs(z))/20))(x.audio)
-        x.audio=Scale(factor = facc )(x.audio)
-        print "amplify ok!"
+    # z=ReplayGain()(x.audio)
+    # # print z
+    # # print 11.5-abs(z)
+    # f=11.5
+    # if f-abs(z)>0:
+    #     # print 10**((11.5-abs(z))/20)
+    #     facc=10**((f-abs(z))/20)
+    #     # fac=20*np.log10(13-abs(z))
+    #     # print fac
+    #     # facc=((13-abs(z))*2)/6.020599913
+    #     # print facc
+    #     # # x.audio=Scale(factor = 10**((abs(z))/20))(x.audio)
+    #     x.audio=Scale(factor = facc )(x.audio)
+    #     print "amplify ok!"
 
     #kasdfsdf
     #print essentia.standard.KeyExtractor()(x.framePool[1])
@@ -304,7 +304,8 @@ def process(filename,location,fname):
     ke=[]
     for i in onda:
       tmp=KeyExtractor()(i)
-      ke.append(tmp[0])
+      ke.append(tmp[0:2])
+      # ke.append(tmp[0])
       # tmp=TuningFrequencyExtractor()(i)
       # local=[]
       # for j in tmp:
@@ -321,8 +322,8 @@ def process(filename,location,fname):
           corr[j]=corr[j]+1
       cor.append(corr)
     # print cor
-    for i in cor:
-      print i
+    # for i in cor:
+    #   print i
     tmp=0
     cont=0
     tol=0
@@ -341,20 +342,24 @@ def process(filename,location,fname):
           tmp=tmp+1
           tol=0
           if tmpp==0:
-            # tmpp=j
-            tmpp=i
+            tmpp=j
+            # tmpp=i
         else:
           if tol==0:
             tol=1
           else:
+            if tmp>7:
+              temp=[tmpp,tmp]
+              fin.append(temp)
             if tmp>cont:
+            # if tmp>=5:
               cont=tmp
               tol=0
               tmp=0
               pos=tmpp
               tmpp=0
-              temp=[pos,cont]
-              fin.append(temp)
+              # temp=[pos,cont]
+              # fin.append(temp)
             else:
               tmp=0
               tmpp=0
@@ -364,10 +369,15 @@ def process(filename,location,fname):
     print cont
 
     conte=0
+    encontrar=[]
+    temp=[pos,cont,1]
+    encontrar.append(temp)
     for k in fin:
       pos=k[0]
       cont=k[1]
       conte=conte+1
+      conto=0
+      temp=[k[0],k[1],0]
       print str(conte)+" vector    pos: "+str(pos)+" cont: "+str(cont)
       pat=ke[pos:pos+cont]  
       for i in range(0,len(ke)-cont-1):
@@ -380,6 +390,21 @@ def process(filename,location,fname):
             o=o+1
         if o>=(len(pat))*0.6:
           print str(i)+": sii"
+          conto=conto+1
+      temp[2]=conto
+      encontrar.append(temp)
+
+    if len(encontrar)>1: 
+      tmp=0
+      tmpp=[]
+      for i in encontrar:
+        if tmp<=i[2]:
+          tmpp=i
+      x.mRepeated[0]=tmpp[0]
+    else:
+      x.mRepeated[0]=encontrar[0][0]
+    x.mRepeated[0]=x.mRepeated[0]*x.points_per_secound
+    x.outputAudio(filename,location,fname)
 
     # for i in range(0,len(cor)-1):
     #   tmp=0
