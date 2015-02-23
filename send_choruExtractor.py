@@ -295,7 +295,7 @@ def process(filename,location,fname):
 
     #kasdfsdf
     #print essentia.standard.KeyExtractor()(x.framePool[1])
-    le=x.metadata[7]
+    le=x.metadata[7] #mac 7 linux 8
     onda=[]
     con=0
     for i in range(le-1):
@@ -365,8 +365,8 @@ def process(filename,location,fname):
               tmpp=0
               tol=0
       k=k+1      
-    print pos
-    print cont
+    # print pos
+    # print cont
 
     conte=0
     encontrar=[]
@@ -378,7 +378,7 @@ def process(filename,location,fname):
       conte=conte+1
       conto=0
       temp=[k[0],k[1],0]
-      print str(conte)+" vector    pos: "+str(pos)+" cont: "+str(cont)
+      # print str(conte)+" vector    pos: "+str(pos)+" cont: "+str(cont)
       pat=ke[pos:pos+cont]  
       for i in range(0,len(ke)-cont-1):
         tmp=ke[i:i+cont]
@@ -389,7 +389,7 @@ def process(filename,location,fname):
           if tmp[j]==pat[j]:
             o=o+1
         if o>=(len(pat))*0.6:
-          print str(i)+": sii"
+          # print str(i)+": sii"
           conto=conto+1
       temp[2]=conto
       encontrar.append(temp)
